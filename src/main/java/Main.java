@@ -224,7 +224,7 @@ public class Main {
     private static int port;
     private Main() throws IOException {
         Dotenv dotenv = Dotenv.load();
-        port = Integer.parseInt(dotenv.get("SERVER_PORT"));
+        port = Integer.parseInt(dotenv.get("SERVER_PORT", "3000"));
         server = com.sun.net.httpserver.HttpServer.create(new InetSocketAddress(port), 100);
         server.setExecutor(java.util.concurrent.Executors.newCachedThreadPool());
         // Test urls
@@ -249,20 +249,20 @@ public class Main {
         // honeycomb exporter
         OtlpGrpcSpanExporter hnyExporter = OtlpGrpcSpanExporter.builder()
             .setEndpoint("https://api.honeycomb.io")
-            .addHeader("x-honeycomb-team", dotenv.get("HNY_KEY"))
-            .addHeader("x-honeycomb-dataset", dotenv.get("DATASET"))        
+            .addHeader("x-honeycomb-team", dotenv.get("HONEYCOMB_API_KEY",""))
+            .addHeader("x-honeycomb-dataset", dotenv.get("HONEYCOMB_DATASET",""))
             .build();
 
-        // lightstep exporter
-        OtlpGrpcSpanExporter lsExporter = OtlpGrpcSpanExporter.builder()
-            .setEndpoint("https://ingest.lightstep.com")
-            .addHeader("lightstep-access-token", dotenv.get("LS_KEY"))      
-            .build();
+//        // lightstep exporter
+//        OtlpGrpcSpanExporter lsExporter = OtlpGrpcSpanExporter.builder()
+//            .setEndpoint("https://ingest.lightstep.com")
+//            .addHeader("lightstep-access-token", dotenv.get("LS_KEY", ""))
+//            .build();
         
         SdkTracerProvider sdkTracerProvider = SdkTracerProvider.builder()
             .addSpanProcessor(SimpleSpanProcessor.create(loggingExporter))
             .addSpanProcessor(BatchSpanProcessor.builder(hnyExporter).build())
-            .addSpanProcessor(BatchSpanProcessor.builder(lsExporter).build())
+//          .addSpanProcessor(BatchSpanProcessor.builder(lsExporter).build())
             .build();
 
         openTelemetry = OpenTelemetrySdk.builder()
@@ -270,7 +270,7 @@ public class Main {
             .setPropagators(ContextPropagators.create(W3CTraceContextPropagator.getInstance()))
             .build();
 
-        tracer = openTelemetry.getTracer("otel-java-instructor");
+        tracer = openTelemetry.getTracer("otel-java");
     }
 
     /**
