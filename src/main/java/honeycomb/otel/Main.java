@@ -1,3 +1,5 @@
+package honeycomb.otel;
+
 import io.github.cdimascio.dotenv.Dotenv;
 import io.opentelemetry.api.trace.Span;
 import io.opentelemetry.api.trace.SpanKind;

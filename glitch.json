@@ -1,5 +1,5 @@
 {
-  "start": "java -cp target/classes:'target/dependency/*' Main",
+  "start": "java -cp target/classes:'target/dependency/*' honeycomb.otel.Main",
   "install": "echo 'compiling' && mvn clean compile",
   "watch": {
     "throttle": 500,
