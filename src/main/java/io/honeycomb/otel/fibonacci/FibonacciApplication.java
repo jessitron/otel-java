@@ -79,10 +79,13 @@ public class FibonacciApplication {
 			String ff = getter.get(carrier, "x-forwarded-for");
 			if (ff == null) {
 				System.out.println("NOT FORWARDED");
+				// no forwarding headers. Behave normally
+		    return base.extract(context, carrier, getter);
 			} else {
+				// forwarded! Ignore tracing on headers.
 				System.out.println("FORWARDED");
+				return context;
 			}
-		  return base.extract(context, carrier, getter);
 		}
 	}
 
