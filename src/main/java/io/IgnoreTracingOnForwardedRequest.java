@@ -33,7 +33,7 @@ class IgnoreTracingOnForwardedRequest implements TextMapPropagator {
   }
   public Collection<String> fields() {
     Collection<String> fields = base.fields();
-    fields.add("x-forwarded-for"); // if that just gave us an immutable list, this won't work
+    fields.add("user-agent");
     return fields;
   }
 
@@ -47,14 +47,14 @@ class IgnoreTracingOnForwardedRequest implements TextMapPropagator {
   *
   */
   public <C> Context extract(Context context, C carrier, TextMapGetter<C> getter) {
-    String ff = getter.get(carrier, "x-forwarded-for");
-    if (ff == null) {
-      System.out.println("NOT FORWARDED");
-      // no forwarding headers. Behave normally
+    String ua = getter.get(carrier, "user-agent");
+    if (ua == null || ua.startsWith("Java")) {
+      System.out.println("THIS IS FROM ME");
+      // looks like an internal call. Behave normally
       return base.extract(context, carrier, getter);
     } else {
-      // forwarded! Ignore tracing on headers.
-      System.out.println("FORWARDED");
+      // initial request! Ignore tracing on headers.
+      System.out.println("THIS IS FROM OUTSIDE");
       return context;
     }
   }
