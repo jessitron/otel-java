@@ -5,13 +5,8 @@ import io.opentelemetry.extension.annotations.WithSpan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.stream.Collectors;
-import java.util.Map;
-import java.util.List;
 
 @RestController
 public class FibonacciController {
@@ -20,18 +15,12 @@ public class FibonacciController {
   RestTemplate restTemplate;
 
   @GetMapping("/fib")
-  public FibonacciNumber getFibonacciNumber(@RequestParam(value = "index", defaultValue = "0") String index, @RequestHeader Map<String, List<String>> httpHeaders) {
+  public FibonacciNumber getFibonacciNumber(@RequestParam(value = "index", defaultValue = "0") String index) {
     int i = Integer.parseInt(index);
     
     // CUSTOM ATTRIBUTE: add the custom attribute to the current span here
     Span span = Span.current();
-    String poop = "";
-    Map<String,List<String>> headerMap = httpHeaders;//.map();
-    for (String fart : headerMap.keySet()) {
-      poop = poop + " " + fart + "=" + headerMap.get(fart);
-    }
     span.setAttribute("parameter.index", i);
-    span.setAttribute("request.headers", poop);
 
     if (i == 0) {
       return new FibonacciNumber(i, 0);
