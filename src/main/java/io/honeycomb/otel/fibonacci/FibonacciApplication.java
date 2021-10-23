@@ -25,6 +25,10 @@ public class FibonacciApplication {
 		return builder.build();
 	}
 
+	/**
+	* Glitch-specific propagation.
+	* If you run this app locally, comment this out!
+	*/
 	@Bean
   ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
 		return IgnoreTracingOnForwardedRequest.contextPropagators(propagators);
