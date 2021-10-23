@@ -42,11 +42,11 @@
             <artifactId>opentelemetry-sdk</artifactId>
             <version>1.6.0</version>
         </dependency>
-        <!-- <dependency>
+        <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-spring-boot-autoconfigure</artifactId>
             <version>1.6.2-alpha</version>
-        </dependency> -->
+        </dependency>
 
     </dependencies>
 
