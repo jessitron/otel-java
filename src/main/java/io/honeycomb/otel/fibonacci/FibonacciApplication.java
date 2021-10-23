@@ -34,14 +34,16 @@ public class FibonacciApplication {
 		return builder.build();
 	}
 
-	// @Bean
-  // ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
-	// 	System.err.println("JESS WAS HERE");
-  //   List<TextMapPropagator> mapPropagators = propagators.getIfAvailable(Collections::emptyList);
-  //   if (mapPropagators.isEmpty()) {
-  //     return ContextPropagators.noop();
-  //   }
-  //   return ContextPropagators.create(TextMapPropagator.composite(mapPropagators));
-  // }
+	@Bean
+  ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
+		System.err.println("JESS WAS HERE");
+    List<TextMapPropagator> mapPropagators = propagators.getIfAvailable(Collections::emptyList);
+    if (mapPropagators.isEmpty()) {
+			System.err.println("NOOP FOR YOU");
+      return ContextPropagators.noop();
+    }
+		System.err.println("THERE ARE " + mapPropagators.size() + " propagators");
+    return ContextPropagators.create(TextMapPropagator.composite(mapPropagators));
+  }
 
 }
