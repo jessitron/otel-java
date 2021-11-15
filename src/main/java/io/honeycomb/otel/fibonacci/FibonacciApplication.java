@@ -16,7 +16,7 @@ import org.springframework.beans.factory.ObjectProvider;
 public class FibonacciApplication {
 
 	public static void main(String[] args) {
-
+    Tracing.setUpTracing();
 		SpringApplication.run(FibonacciApplication.class, args);
 	}
 
