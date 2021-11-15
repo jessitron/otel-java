@@ -33,10 +33,10 @@ public class FibonacciApplication {
 	/**
 	 * Glitch-specific propagation. If you run this app locally, comment this out!
 	 */
-	@Bean
-	ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
-		return IgnoreTracingOnForwardedRequest.contextPropagators(propagators);
-	}
+	// @Bean
+	// ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
+	// 	return IgnoreTracingOnForwardedRequest.contextPropagators(propagators);
+	// }
 
 	@Bean
 	OpenTelemetry setUpTracing() {
