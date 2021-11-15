@@ -9,7 +9,6 @@ import org.springframework.beans.factory.ObjectProvider;
 import io.opentelemetry.context.propagation.TextMapGetter;
 import io.opentelemetry.context.Context;
 
-import io.opentelemetry.context.propagation.TextMapPropagator;
 import io.opentelemetry.context.propagation.TextMapSetter;
 
 class IgnoreTracingOnForwardedRequest implements TextMapPropagator {
