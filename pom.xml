@@ -15,6 +15,18 @@
     <properties>
         <java.version>8</java.version>
     </properties>
+    <dependencyManagement>
+        <dependencies>
+            <!-- https://mvnrepository.com/artifact/io.opentelemetry/opentelemetry-bom -->
+            <dependency>
+                <groupId>io.opentelemetry</groupId>
+                <artifactId>opentelemetry-bom</artifactId>
+                <version>1.9.0</version>
+                <type>pom</type>
+                <scope>import</scope> 
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -30,22 +42,14 @@
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-api</artifactId>
-            <version>1.6.0</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-extension-annotations</artifactId>
-            <version>1.6.0</version>
         </dependency>
         <dependency>
             <groupId>io.opentelemetry</groupId>
             <artifactId>opentelemetry-sdk</artifactId>
-            <version>1.6.0</version>
-        </dependency>
-        <dependency>
-            <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-boot-autoconfigure</artifactId>
-            <version>1.6.2-alpha</version>
         </dependency>
 
     </dependencies>
@@ -62,7 +66,7 @@
                         <!--                        <HONEYCOMB_API_KEY>define this in your runtime env vars</HONEYCOMB_API_KEY>-->
                         <HONEYCOMB_DATASET>otel-java</HONEYCOMB_DATASET>
                     </environmentVariables>
-                   
+
                 </configuration>
             </plugin>
         </plugins>
