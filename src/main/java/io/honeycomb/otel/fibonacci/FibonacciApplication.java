@@ -9,14 +9,19 @@ import org.springframework.web.client.RestTemplate;
 
 import io.opentelemetry.context.propagation.ContextPropagators;
 import io.opentelemetry.context.propagation.TextMapPropagator;
+import io.opentelemetry.instrumentation.spring.webmvc.SpringWebMvcTracing;
+
 import java.util.List;
+
+import javax.servlet.Filter;
+
 import org.springframework.beans.factory.ObjectProvider;
 
 @SpringBootApplication
 public class FibonacciApplication {
 
 	public static void main(String[] args) {
-    Tracing.setUpTracing();
+
 		SpringApplication.run(FibonacciApplication.class, args);
 	}
 
@@ -26,12 +31,20 @@ public class FibonacciApplication {
 	}
 
 	/**
-	* Glitch-specific propagation.
-	* If you run this app locally, comment this out!
-	*/
+	 * Glitch-specific propagation. If you run this app locally, comment this out!
+	 */
 	@Bean
-  ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
+	ContextPropagators contextPropagators(ObjectProvider<List<TextMapPropagator>> propagators) {
 		return IgnoreTracingOnForwardedRequest.contextPropagators(propagators);
-  }
+	}
 
+	@Bean
+	OpenTelemetry setUpTracing() {
+		return Tracing.setUpTracing();
+	}
+
+	@Bean
+	public Filter webMvcTracingFilter(OpenTelemetry openTelemetry) {
+		return SpringWebMvcTracing.create(openTelemetry).newServletFilter();
+	}
 }

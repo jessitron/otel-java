@@ -18,7 +18,7 @@ import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
 
 public class Tracing {
 
-  public static void setUpTracing() {
+  public static OpenTelemetry setUpTracing() {
     System.out.println("SET UP TRACING, YO");
 
     SpanExporter exporter = OtlpGrpcSpanExporter.builder()
@@ -35,5 +35,7 @@ public class Tracing {
     Span boo = openTelemetry.getTracer("test-span").spanBuilder("test span").setAttribute("friend", "jessitron")
         .setNoParent().startSpan();
     boo.end();
+
+    return openTelemetry;
   }
 }
